@@ -1,6 +1,7 @@
 ﻿using Common.Models;
 using IService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,18 +24,79 @@ namespace Start.Controllers
         public IActionResult datagridall()
         {
             //var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => true);
-            var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0");
-
-            if (all_DecayPools?.Count() > 0)
+            try
             {
-                var userInfo = all_DecayPools.ToList();
+                var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0");
 
-                //可以根据权限不同返回一个对应菜单
-                return Ok(userInfo);
+                if (all_DecayPools?.Count() > 0)
+                {
+                    var userInfo = all_DecayPools.ToList();
+
+                    //可以根据权限不同返回一个对应菜单
+                    return Ok(userInfo);
+                }
+                else
+                {
+                    return Ok("测试成功");
+                }
             }
-            else
+            catch(Exception e0)
             {
-                return Ok("测试成功");
+                return Ok("测试失败");
+            }
+        }
+        /// <summary>
+        /// 根据选择的衰变池从数据库中读取数据 适用于更新、初始选择时的显示
+        /// </summary>
+        /// <param name="poolname"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("poolselect")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult Poolselect([FromForm] string poolname)
+        {
+            //var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => true);
+            try
+            {
+                var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == poolname);
+
+                if (all_DecayPools?.Count() > 0)
+                {
+                    var userInfo = all_DecayPools.ToList();
+
+                    //可以根据权限不同返回一个对应菜单
+                    return Ok(userInfo);
+                }
+                else
+                {
+                    return Ok("测试成功");
+                }
+            }
+            catch(Exception e1)
+            {
+                return Ok("测试失败");
+            }
+
+        }
+
+        [HttpPost]
+        [Route("updatedata")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult updatedata([FromForm] string decayPool)
+        {
+            try
+            {
+                //设置反序列化时跳过空值
+                JsonSerializerSettings jsetting = new JsonSerializerSettings();
+                jsetting.NullValueHandling = NullValueHandling.Ignore;
+                //衰变池信息的反序列化
+                tb_DecayPool DecayPool = JsonConvert.DeserializeObject<tb_DecayPool>(decayPool, jsetting);
+
+                _ifdecaypoolService.Update(DecayPool);
+
+                return Ok("true");
+            }
+            catch (Exception e1)
+            {
+                return Ok(e1.Message);
             }
 
         }
