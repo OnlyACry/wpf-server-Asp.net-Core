@@ -100,6 +100,56 @@ namespace Start.Controllers
             }
 
         }
+        /// <summary>
+        /// 插入衰变池数据
+        /// </summary>
+        /// <param name="decayPool"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("insertdata")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult insertdata([FromForm] string decayPool)
+        {
+            try
+            {
+                //设置反序列化时跳过空值
+                JsonSerializerSettings jsetting = new JsonSerializerSettings();
+                jsetting.NullValueHandling = NullValueHandling.Ignore;
+                //衰变池信息的反序列化
+                tb_DecayPool DecayPool = JsonConvert.DeserializeObject<tb_DecayPool>(decayPool, jsetting);
+
+                _ifdecaypoolService.Insert(DecayPool);
+
+                return Ok("true");
+            }
+            catch (Exception e1)
+            {
+                return Ok(e1.Message);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("deletedata")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult deletedata([FromForm] string ListdecayPool)
+        {
+            try
+            {
+                //设置反序列化时跳过空值
+                JsonSerializerSettings jsetting = new JsonSerializerSettings();
+                jsetting.NullValueHandling = NullValueHandling.Ignore;
+                //衰变池信息的反序列化
+                List<tb_DecayPool> DecayPool = JsonConvert.DeserializeObject<List<tb_DecayPool>>(ListdecayPool, jsetting);
+
+                _ifdecaypoolService.Delete(DecayPool);
+
+                return Ok("true");
+            }
+            catch (Exception e1)
+            {
+                return Ok(e1.Message);
+            }
+
+        }
         //[HttpGet]
         //[Route("combobox1")]//不加的话访问不到该方法  访问地址api/user/login
         //public IActionResult combobox1()
