@@ -18,7 +18,10 @@ namespace Start.Controllers
         {
             _ifdecaypoolService = ifdecaypoolService;
         }
-
+        /// <summary>
+        /// 查询全部数据
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("datagridall")]//不加的话访问不到该方法  访问地址api/user/login
         public IActionResult datagridall()
@@ -77,7 +80,11 @@ namespace Start.Controllers
             }
 
         }
-
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        /// <param name="decayPool"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("updatedata")]//不加的话访问不到该方法  访问地址api/user/login
         public IActionResult updatedata([FromForm] string decayPool)
@@ -127,7 +134,11 @@ namespace Start.Controllers
             }
 
         }
-
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="ListdecayPool"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("deletedata")]//不加的话访问不到该方法  访问地址api/user/login
         public IActionResult deletedata([FromForm] string ListdecayPool)
@@ -140,7 +151,7 @@ namespace Start.Controllers
                 //衰变池信息的反序列化
                 List<tb_DecayPool> DecayPool = JsonConvert.DeserializeObject<List<tb_DecayPool>>(ListdecayPool, jsetting);
 
-                _ifdecaypoolService.Delete(DecayPool);
+                _ifdecaypoolService.Delete<tb_DecayPool>(DecayPool);
 
                 return Ok("true");
             }
@@ -150,6 +161,125 @@ namespace Start.Controllers
             }
 
         }
+        /// <summary>
+        /// 查找对应信息，有选定衰变池时
+        /// </summary>
+        /// <param name="SelectItem"></param>
+        /// <param name="PoolName"></param>
+        /// <param name="Item"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("searchdata")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult searchdata([FromForm] string SelectItem, [FromForm] string PoolName, [FromForm] string Item)
+        {
+            try
+            {
+                var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0");
+                switch (SelectItem)
+                {
+                    case "DecayPoolName":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.DecayPoolName == Item);
+                        break;
+                    case "DecayPoolTime":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.DecayPoolTime == Convert.ToDateTime(Item));
+                        break;
+                    case "RecordNo":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.RecordNo == Item);
+                        break;
+                    case "OperUser":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.OperUser == Item);
+                        break;
+                    case "PatientNum":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.PatientNum == int.Parse(Item));
+                        break;
+                    case "PreWater":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.PreWater == Item);
+                        break;
+                    case "OtherWater":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.OtherWater == Item);
+                        break;
+                    case "WaterTotal":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.WaterTotal == Item);
+                        break;
+                    case "ReferValue":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.ReferValue == Item);
+                        break;
+                    case "IntervalTime":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.IntervalTime == Item);
+                        break;
+                    case "OperTime":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == PoolName && u.OperTime == Convert.ToDateTime(Item));
+                        break;
+                }
+                return Ok(all_DecayPools);
+
+            }
+            catch (Exception e1)
+            {
+                return Ok(e1.Message);
+            }
+
+        }
+        #region 搜索框，无衰变池选择
+        /// <summary>
+        /// 查找相应信息，无选择衰变池时
+        /// </summary>
+        /// <param name="SelectItem"></param>
+        /// <param name="PoolName"></param>
+        /// <param name="Item"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("searchdatapoolnull")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult searchdatapoolnull([FromForm] string SelectItem, [FromForm] string Item)
+        {
+            try
+            {
+                var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0");
+                switch (SelectItem)
+                {
+                    case "DecayPoolName":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolName == Item);
+                        break;
+                    case "DecayPoolTime":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.DecayPoolTime == Convert.ToDateTime(Item));
+                        break;
+                    case "RecordNo":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.RecordNo == Item);
+                        break;
+                    case "OperUser":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.OperUser == Item);
+                        break;
+                    case "PatientNum":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.PatientNum == int.Parse(Item));
+                        break;
+                    case "PreWater":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.PreWater == Item);
+                        break;
+                    case "OtherWater":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.OtherWater == Item);
+                        break;
+                    case "WaterTotal":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.WaterTotal == Item);
+                        break;
+                    case "ReferValue":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.ReferValue == Item);
+                        break;
+                    case "IntervalTime":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.IntervalTime == Item);
+                        break;
+                    case "OperTime":
+                        all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.OperTime == Convert.ToDateTime(Item));
+                        break;
+                }
+                return Ok(all_DecayPools);
+            }
+            catch (Exception e1)
+            {
+                return Ok(e1.Message);
+            }
+
+        }
+        #endregion
         //[HttpGet]
         //[Route("combobox1")]//不加的话访问不到该方法  访问地址api/user/login
         //public IActionResult combobox1()

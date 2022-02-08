@@ -20,6 +20,8 @@ namespace Common.Models
         [StringLength(30)]
         public string DecayPoolName { get; set; }
         [StringLength(50)]
+        public string DecayPoolRecord { get; set; }
+        [StringLength(30)]
         public string DecayPoolPosition { get; set; }
         [StringLength(20)]
         public string DecayPoolStandard { get; set; }
