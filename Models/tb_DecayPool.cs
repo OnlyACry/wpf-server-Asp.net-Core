@@ -23,11 +23,15 @@ namespace Common.Models
         /// </summary>
         public DateTime? DecayPoolTime { get; set; }
         [StringLength(18)]
+        public string DecayPoolRecord { get; set; }
+        [StringLength(30)]
         public string RecordNo { get; set; }
         [StringLength(30)]
         public string WorkMode { get; set; }
         public int? PatientNum { get; set; }
         [StringLength(30)]
+        public string DecayPoolVolume { get; set; }
+        [StringLength(10)]
         public string PreWater { get; set; }
         [StringLength(50)]
         public string OtherWater { get; set; }

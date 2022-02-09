@@ -43,5 +43,20 @@ namespace Start.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("datagridall")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult Datagridall()
+        {
+            try
+            {
+                var users = _loginService.Query<Tab_operator>(u => u.op_name != "admin");
+
+                var userInfo = users.ToList();
+
+                return Ok(userInfo);
+            }
+            catch (Exception e) { return Ok("读取失败");  }
+        }
     }
 }

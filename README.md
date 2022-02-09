@@ -1,2 +1,2 @@
 # wpf-server-Asp.net-Core
-增删改完成
+衰变池 - 连续推流式完成
