@@ -71,7 +71,7 @@ namespace Start.Controllers
                 }
                 else
                 {
-                    return Ok("测试成功");
+                    return Ok("");
                 }
             }
             catch(Exception e1)

@@ -39,7 +39,33 @@ namespace Start.Controllers
                 }
                 else
                 {
-                    return Ok("测试成功");
+                    return Ok("");
+                }
+            }
+            catch (Exception e0)
+            {
+                return Ok("测试失败");
+            }
+        }
+
+        [HttpPost]
+        [Route("pooldictSignal")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult pooldictSignal([FromForm] string PoolName)
+        {
+            try
+            {
+                var all_DecayPools = _ifdecaypoolService.Query<dict_DecayPool>(u => u.DecayPoolName == PoolName);
+
+                if (all_DecayPools?.Count() > 0)
+                {
+                    var userInfo = all_DecayPools.ToList();
+
+                    //可以根据权限不同返回一个对应菜单
+                    return Ok(userInfo);
+                }
+                else
+                {
+                    return Ok("");
                 }
             }
             catch (Exception e0)
@@ -48,4 +74,6 @@ namespace Start.Controllers
             }
         }
     }
+
+    
 }
