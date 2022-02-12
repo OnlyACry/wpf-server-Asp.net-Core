@@ -50,11 +50,11 @@ namespace Start.Controllers
 
         [HttpPost]
         [Route("pooldictSignal")]//不加的话访问不到该方法  访问地址api/user/login
-        public IActionResult pooldictSignal([FromForm] string PoolName)
+        public IActionResult pooldictSignal([FromForm] string PoolName, [FromForm] string WorkMode)
         {
             try
             {
-                var all_DecayPools = _ifdecaypoolService.Query<dict_DecayPool>(u => u.DecayPoolName == PoolName);
+                var all_DecayPools = _ifdecaypoolService.Query<dict_DecayPool>(u => u.DecayPoolName == PoolName && u.DecayPoolType == WorkMode);
 
                 if (all_DecayPools?.Count() > 0)
                 {
