@@ -198,5 +198,33 @@ namespace Start.Controllers
 
         }
         #endregion
+
+        #region 查询预估用水和 => 间歇存储式
+        [HttpPost]
+        [Route("selectWater2")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult selectWater2([FromForm]DateTime starttime)
+        {
+            try
+            {
+                var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "1" && u.IsValid == 1 && u.RecordNo.Contains("M") && u.DecayPoolTime >= starttime && u.DecayPoolTime <= DateTime.Now);
+
+                if (all_DecayPools?.Count() > 0)
+                {
+                    var userInfo = all_DecayPools.ToList();
+
+                    //可以根据权限不同返回一个对应菜单
+                    return Ok(userInfo);
+                }
+                else
+                {
+                    return Ok("");
+                }
+            }
+            catch (Exception e0)
+            {
+                return Ok("测试失败");
+            }
+        }
+        #endregion
     }
 }
