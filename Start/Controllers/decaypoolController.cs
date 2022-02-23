@@ -18,6 +18,8 @@ namespace Start.Controllers
         {
             _ifdecaypoolService = ifdecaypoolService;
         }
+
+        #region 查询全部
         /// <summary>
         /// 查询全部数据
         /// </summary>
@@ -48,6 +50,38 @@ namespace Start.Controllers
                 return Ok("测试失败");
             }
         }
+        #endregion
+
+        #region 查询当前日期的衰变池数据
+        [HttpGet]
+        [Route("datenow")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult datenow()
+        {
+            //var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => true);
+            try
+            {
+                var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => u.WorkMode == "0" && u.IsValid == 1 && u.DecayPoolTime.ToString().Contains(DateTime.Now.ToString("d")));
+
+                if (all_DecayPools?.Count() > 0)
+                {
+                    var userInfo = all_DecayPools.ToList();
+
+                    //可以根据权限不同返回一个对应菜单
+                    return Ok(userInfo);
+                }
+                else
+                {
+                    return Ok("测试成功");
+                }
+            }
+            catch (Exception e0)
+            {
+                return Ok("测试失败");
+            }
+        }
+        #endregion
+
+        #region 选择了衰变池，未选择记录类型
         /// <summary>
         /// 选择了衰变池，未选择记录类型
         /// </summary>
@@ -80,6 +114,7 @@ namespace Start.Controllers
             }
 
         }
+        #endregion
 
         #region 选择记录类型，未选择衰变池
         [HttpPost]
@@ -138,6 +173,8 @@ namespace Start.Controllers
 
         }
         #endregion
+
+        #region 更新数据
         /// <summary>
         /// 更新数据
         /// </summary>
@@ -165,6 +202,9 @@ namespace Start.Controllers
             }
 
         }
+        #endregion
+
+        #region 插入数据
         /// <summary>
         /// 插入衰变池数据
         /// </summary>
@@ -192,6 +232,9 @@ namespace Start.Controllers
             }
 
         }
+        #endregion
+
+        #region 删除数据
         /// <summary>
         /// 删除数据
         /// </summary>
@@ -219,6 +262,9 @@ namespace Start.Controllers
             }
 
         }
+        #endregion
+
+        #region 查找
         /// <summary>
         /// 查找对应信息，有选定衰变池时
         /// </summary>
@@ -278,6 +324,7 @@ namespace Start.Controllers
             }
 
         }
+        #endregion
         #region 搜索框，无衰变池选择
         /// <summary>
         /// 查找相应信息，无选择衰变池时
