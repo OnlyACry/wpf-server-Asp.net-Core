@@ -1,5 +1,7 @@
 ﻿using Common.Models;
 using Microsoft.EntityFrameworkCore;
+
+
 using System;
 
 
@@ -53,7 +55,7 @@ namespace EFCore
         public virtual DbSet<tb_Pollutant_sc_gt> tb_Pollutant_sc_gts { get; set; }
         public virtual DbSet<tb_Pollutant_sc_qt> tb_Pollutant_sc_qts { get; set; }
         public virtual DbSet<tb_Pollutant_sc_yt> tb_Pollutant_sc_yts { get; set; }
-        public virtual DbSet<tb_Pollutant_zs_gt_> tb_Pollutant_zs_gt_s { get; set; }
+        public virtual DbSet<tb_Pollutant_zs_gt> tb_Pollutant_zs_gt_s { get; set; }
         public virtual DbSet<tb_Pollutant_zs_qt> tb_Pollutant_zs_qts { get; set; }
         public virtual DbSet<tb_Pollutant_zs_yt> tb_Pollutant_zs_yts { get; set; }
         public virtual DbSet<tb_QCFile> tb_QCFiles { get; set; }
@@ -80,7 +82,7 @@ namespace EFCore
 
                 entity.Property(e => e.op_sex).IsUnicode(false);
 
-                entity.Property(e => e.zc).IsUnicode(false);
+                entity.Property(e => e.op_zc).IsUnicode(false);
             });
 
             modelBuilder.Entity<dict_Comm>(entity =>
@@ -710,7 +712,7 @@ namespace EFCore
                 entity.Property(e => e.UnitName).IsUnicode(false);
             });
 
-            modelBuilder.Entity<tb_Pollutant_zs_gt_>(entity =>
+            modelBuilder.Entity<tb_Pollutant_zs_gt>(entity =>
             {
                 entity.HasKey(e => e.PollutantUID)
                     .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy1");

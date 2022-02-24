@@ -49,6 +49,5 @@ namespace Common.Models
         public int? IsValid { get; set; }
         [StringLength(150)]
         public string Memo { get; set; }
-        public int? Flag { get; set; }
     }
 }

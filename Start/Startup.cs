@@ -47,7 +47,13 @@ namespace Start
             services.AddTransient<IEFContext.IEFContext, EFContext.EFContext>();
             services.AddTransient<ILoginService, LoginService>();//如果不加类库名，就需要在开头USing类库名
 
-            services.AddTransient<IfdecaypoolService, fdecaypoolService>();//衰变池1
+            services.AddTransient<IPollutantService, PollutantService>();
+            services.AddTransient<ISetDicService, SetDicService>();
+            services.AddTransient<IOperatorService, OperatorService>();
+            services.AddTransient<IfdecaypoolService, fdecaypoolService>();
+
+
+
 
 
 

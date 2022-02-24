@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EFContext\EFContext.csproj" />
     <ProjectReference Include="..\IEFContext\IEFContext.csproj" />
     <ProjectReference Include="..\IService\IService.csproj" />
   </ItemGroup>

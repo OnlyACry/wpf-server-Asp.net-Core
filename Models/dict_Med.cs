@@ -36,5 +36,7 @@ namespace Common.Models
         public string OperUser { get; set; }
         [StringLength(150)]
         public string Memo { get; set; }
+
+        public string CnName { get; set; }
     }
 }

@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Common.Models
 {
-    [Table("tb_Pollutant_zs_qt")]
-    public partial class tb_Pollutant_zs_qt
+    [Table("tb_Pollutant_zs_gt")]
+    public partial class tb_Pollutant_zs_gt
     {
         [Key]
         public Guid PollutantUID { get; set; }

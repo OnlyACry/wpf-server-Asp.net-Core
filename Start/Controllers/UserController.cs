@@ -25,23 +25,27 @@ namespace Start.Controllers
        [Route("login")]//不加的话访问不到该方法  访问地址api/user/login
         public IActionResult Login([FromForm]string username,[FromForm] int password)
         {
-            var users = _loginService.Query<Tab_operator>(u => u.op_name == username && u.op_psw == password);
-
-            if (users?.Count() > 0)
+            try
             {
-                var userInfo = users.ToList();
-                Tab_operator operators = userInfo[0];
+                var users = _loginService.Query<Tab_operator>(u => u.op_name == username && u.op_psw == password);
 
-                //可以根据权限不同返回一个对应菜单
+                if (users?.Count() > 0)
+                {
+                    var userInfo = users.ToList();
+                    Tab_operator operators = userInfo[0];
+
+                    //可以根据权限不同返回一个对应菜单
 
 
-                return Ok(operators);
+                    return Ok(operators);
+                }
+                else
+                {
+                    return NoContent();
+                }
             }
-            else
-            {
-                return Ok("测试成功");
-            }
-
+            catch(Exception e) 
+            { return NoContent(); }
         }
 
         [HttpGet]

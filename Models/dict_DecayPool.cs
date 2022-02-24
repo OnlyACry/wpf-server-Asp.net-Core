@@ -41,5 +41,13 @@ namespace Common.Models
         [StringLength(150)]
         public string Memo { get; set; }
         public int? Holdtime { get; set; }
+        /// <summary>
+        /// 参考范围
+        /// </summary>
+        public string ReferValue { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public string DecayPoolState { get; set; }
     }
 }

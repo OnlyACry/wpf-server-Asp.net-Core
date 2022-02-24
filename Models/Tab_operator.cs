@@ -25,6 +25,8 @@ namespace Common.Models
         public string Memo { get; set; }
         public int? age { get; set; }
         [StringLength(50)]
-        public string zc { get; set; }
+        public string op_zc { get; set; }
+
+        public string Op_permisson { get; set; }
     }
 }

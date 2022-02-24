@@ -47,6 +47,8 @@ namespace Common.Models
         public DateTime? ProcessTime { get; set; }
         [StringLength(50)]
         public string ProcessUser { get; set; }
+
+        public string ProcessName { get; set; }
         public int? IsValid { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? OperTime { get; set; }
