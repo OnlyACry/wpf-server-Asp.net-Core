@@ -17,6 +17,8 @@ namespace Common.Models
         public string CompanyCode { get; set; }
         [StringLength(30)]
         public string CompanyName { get; set; }
+        [StringLength(150)]
+        public string FilePath { get; set; }
         public int? IsValid { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? OperTime { get; set; }

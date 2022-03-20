@@ -23,11 +23,10 @@ namespace Start.Controllers
 
         [HttpPost]
        [Route("login")]//不加的话访问不到该方法  访问地址api/user/login
-        public IActionResult Login([FromForm]string username,[FromForm] int password)
+        public IActionResult Login([FromForm]string usercode, [FromForm]string username,[FromForm] int password)
         {
-            try
-            {
-                var users = _loginService.Query<Tab_operator>(u => u.op_name == username && u.op_psw == password);
+
+            var users = _loginService.Query<Tab_operator>(u => u.op_name == username && u.op_psw == password);
 
                 if (users?.Count() > 0)
                 {
@@ -44,9 +43,7 @@ namespace Start.Controllers
                     return NoContent();
                 }
             }
-            catch(Exception e) 
-            { return NoContent(); }
-        }
+            
 
         [HttpGet]
         [Route("datagridall")]//不加的话访问不到该方法  访问地址api/user/login
@@ -62,5 +59,30 @@ namespace Start.Controllers
             }
             catch (Exception e) { return Ok("读取失败");  }
         }
+
+        [HttpPost]
+        [Route("FillName")]//不加的话访问不到该方法  访问地址api/user/login
+        public IActionResult FillName([FromForm] string usercode)
+        {
+
+            var users = _loginService.Query<Tab_operator>(u => u.op_code == usercode);
+
+            if (users?.Count() > 0)
+            {
+                var userInfo = users.ToList();
+                Tab_operator operators = userInfo[0];
+
+                //可以根据权限不同返回一个对应菜单
+
+
+                return Ok(operators);
+            }
+            else
+            {
+                return NoContent();
+            }
+
+        }
+
     }
 }

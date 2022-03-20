@@ -1,7 +1,6 @@
 ﻿using Common.Models;
 using Microsoft.EntityFrameworkCore;
-
-
+using Models;
 using System;
 
 
@@ -9,7 +8,7 @@ namespace EFCore
 {
     public partial class EFCoreContext:DbContext
     {
-        private string strConn= "Data Source=.;Initial Catalog=Medicine;Persist Security Info=True;User ID=lcac;Password=123456";
+        private string strConn = "Data Source=.;Initial Catalog=Medicine;Persist Security Info=True;User ID=lcac;Password=123456";
 
 
         public EFCoreContext(string strConn)
@@ -49,18 +48,14 @@ namespace EFCore
         public virtual DbSet<tb_FlowLog> tb_FlowLogs { get; set; }
         public virtual DbSet<tb_OperLog> tb_OperLogs { get; set; }
         public virtual DbSet<tb_Permission> tb_Permissions { get; set; }
-        public virtual DbSet<tb_Pollutant_bf_gt> tb_Pollutant_bf_gts { get; set; }
-        public virtual DbSet<tb_Pollutant_bf_qt> tb_Pollutant_bf_qts { get; set; }
-        public virtual DbSet<tb_Pollutant_bf_yt> tb_Pollutant_bf_yts { get; set; }
-        public virtual DbSet<tb_Pollutant_sc_gt> tb_Pollutant_sc_gts { get; set; }
-        public virtual DbSet<tb_Pollutant_sc_qt> tb_Pollutant_sc_qts { get; set; }
-        public virtual DbSet<tb_Pollutant_sc_yt> tb_Pollutant_sc_yts { get; set; }
-        public virtual DbSet<tb_Pollutant_zs_gt> tb_Pollutant_zs_gt_s { get; set; }
-        public virtual DbSet<tb_Pollutant_zs_qt> tb_Pollutant_zs_qts { get; set; }
-        public virtual DbSet<tb_Pollutant_zs_yt> tb_Pollutant_zs_yts { get; set; }
+        public virtual DbSet<tb_Pollutant> tb_Pollutant_bf_gts { get; set; }
+       
         public virtual DbSet<tb_QCFile> tb_QCFiles { get; set; }
         public virtual DbSet<tb_Ry> tb_Ries { get; set; }
-
+        public virtual DbSet<tb_Ryzz> tb_Ryzz { get; set; }
+        public virtual DbSet<dict_Sign> Dict_Signs { get; set; }
+        public virtual DbSet<tb_Sign> tb_Sign { get; set; }
+        public virtual DbSet<tb_Pollutant> tb_Pollutant { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -445,10 +440,13 @@ namespace EFCore
 
             modelBuilder.Entity<tb_Permission>(entity =>
             {
-                entity.Property(e => e.ryCode).IsUnicode(false);
+                entity.HasKey(e => e.PermissionUID)
+                    .HasName("PK__tb_Permission__3838BA17EAEC17B8");
+                entity.Property(e => e.RoleName).IsUnicode(false);
+                entity.Property(e => e.PermissionValue).IsUnicode(false);
             });
 
-            modelBuilder.Entity<tb_Pollutant_bf_gt>(entity =>
+            modelBuilder.Entity<tb_Pollutant>(entity =>
             {
                 entity.HasKey(e => e.PollutantUID)
                     .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy2");
@@ -490,359 +488,11 @@ namespace EFCore
                 entity.Property(e => e.UnitCode).IsUnicode(false);
 
                 entity.Property(e => e.UnitName).IsUnicode(false);
+
+                entity.Property(e => e.PollutantType).IsUnicode(false);
             });
 
-            modelBuilder.Entity<tb_Pollutant_bf_qt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy8");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_bf_yt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy5");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_sc_gt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_sc_qt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy6");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_sc_yt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy3");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_zs_gt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy1");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_zs_qt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy7");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<tb_Pollutant_zs_yt>(entity =>
-            {
-                entity.HasKey(e => e.PollutantUID)
-                    .HasName("PK__tb_Pollu__6E1A520E04FF4EBC_copy4");
-
-                entity.Property(e => e.PollutantUID).ValueGeneratedNever();
-
-                entity.Property(e => e.ContainerCode).IsUnicode(false);
-
-                entity.Property(e => e.ContainerName).IsUnicode(false);
-
-                entity.Property(e => e.MedClearTime).IsUnicode(false);
-
-                entity.Property(e => e.MedCode).IsUnicode(false);
-
-                entity.Property(e => e.MedName).IsUnicode(false);
-
-                entity.Property(e => e.Memo).IsUnicode(false);
-
-                entity.Property(e => e.OperUser).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCode).IsUnicode(false);
-
-                entity.Property(e => e.PollutantCount).IsUnicode(false);
-
-                entity.Property(e => e.PollutantName).IsUnicode(false);
-
-                entity.Property(e => e.PollutantNo).IsUnicode(false);
-
-                entity.Property(e => e.PositionCode).IsUnicode(false);
-
-                entity.Property(e => e.PositionName).IsUnicode(false);
-
-                entity.Property(e => e.ProcessUser).IsUnicode(false);
-
-                entity.Property(e => e.SourceCode).IsUnicode(false);
-
-                entity.Property(e => e.SourceName).IsUnicode(false);
-
-                entity.Property(e => e.UnitCode).IsUnicode(false);
-
-                entity.Property(e => e.UnitName).IsUnicode(false);
-            });
+           
 
             modelBuilder.Entity<tb_QCFile>(entity =>
             {
@@ -888,6 +538,25 @@ namespace EFCore
                 entity.Property(e => e.ryZc).IsUnicode(false);
             });
 
+            modelBuilder.Entity<dict_Sign>(entity =>
+            {
+                entity.HasKey(e => e.SignUID)
+                    .HasName("PK__tb_Ry__D327D4FA386B7F90");
+
+                entity.Property(e => e.SignUID).ValueGeneratedNever();
+
+                entity.Property(e => e.SignCode).IsUnicode(false);
+
+                entity.Property(e => e.SignSym).IsUnicode(false);
+
+                entity.Property(e => e.IsOpen).IsUnicode(false);
+
+                entity.Property(e => e.SignExplain).IsUnicode(false);
+
+                entity.Property(e => e.Memo).IsUnicode(false);
+
+                
+            });
             OnModelCreatingPartial(modelBuilder);
         }
 

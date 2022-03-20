@@ -75,7 +75,7 @@ namespace Start.Controllers
                 var Pollut4 = _setDicService.Query<dict_DecayPool>(u => u.IsValid == 1);
                 if (Pollut4?.Count() > 0)
                 {
-                    var Pollut1Info = Pollut4.ToList();
+                  var Pollut1Info = Pollut4.ToList();
                     return Ok(Pollut1Info);
                 }
                 else
@@ -183,7 +183,7 @@ namespace Start.Controllers
 
             else 
             {
-                var Pollut9 = _setDicService.Query<dict_DecayPoolState>(u => u.IsValid == 1);
+                var Pollut9 = _setDicService.Query<dict_Sign>(u =>true);
                 if (Pollut9?.Count() > 0)
                 {
                     var Pollut1Info = Pollut9.ToList();
@@ -240,17 +240,20 @@ namespace Start.Controllers
             {
                 try
                 {
-                    dict_Pollutant DicRecord = JsonConvert.DeserializeObject<dict_Pollutant>(DicRecordStr);
+                   
                     switch (flag)
                     {
                         case 1:
+                            dict_Pollutant DicRecord = JsonConvert.DeserializeObject<dict_Pollutant>(DicRecordStr);
                             _setDicService.Insert<dict_Pollutant>(DicRecord);
                             break;
                         case 2:
-                            _setDicService.Update<dict_Pollutant>(DicRecord);
+                            dict_Pollutant DicRecord1 = JsonConvert.DeserializeObject<dict_Pollutant>(DicRecordStr);
+                            _setDicService.Update<dict_Pollutant>(DicRecord1);
                             break;
                         case 3:
-                            _setDicService.Delete<dict_Pollutant>(DicRecord);
+                            List<dict_Pollutant> DicRecord2 = JsonConvert.DeserializeObject<List<dict_Pollutant>>(DicRecordStr);
+                            _setDicService.Delete<dict_Pollutant>(DicRecord2);
                             break;
                     }
 
@@ -267,17 +270,20 @@ namespace Start.Controllers
             {
                 try
                 {
-                    dict_Med DicRecord = JsonConvert.DeserializeObject<dict_Med>(DicRecordStr);
+                    
                     switch (flag)
                     {
                         case 1:
+                            dict_Med DicRecord = JsonConvert.DeserializeObject<dict_Med>(DicRecordStr);
                             _setDicService.Insert<dict_Med>(DicRecord);
                             break;
                         case 2:
-                            _setDicService.Update<dict_Med>(DicRecord);
+                            dict_Med DicRecord1 = JsonConvert.DeserializeObject<dict_Med>(DicRecordStr);
+                            _setDicService.Update<dict_Med>(DicRecord1);
                             break;
                         case 3:
-                            _setDicService.Delete<dict_Med>(DicRecord);
+                            List<dict_Med> DicRecord2 = JsonConvert.DeserializeObject<List<dict_Med>>(DicRecordStr);
+                            _setDicService.Delete<dict_Med>(DicRecord2);
                             break;
                     }
                     return "true";
@@ -291,17 +297,20 @@ namespace Start.Controllers
             {
                 try
                 {
-                    dict_DecayPool DicRecord = JsonConvert.DeserializeObject<dict_DecayPool>(DicRecordStr);
+                    
                     switch (flag)
                     {
                         case 1:
+                            dict_DecayPool DicRecord = JsonConvert.DeserializeObject<dict_DecayPool>(DicRecordStr);
                             _setDicService.Insert<dict_DecayPool>(DicRecord);
                             break;
                         case 2:
-                            _setDicService.Update<dict_DecayPool>(DicRecord);
+                            dict_DecayPool DicRecord1 = JsonConvert.DeserializeObject<dict_DecayPool>(DicRecordStr);
+                            _setDicService.Update<dict_DecayPool>(DicRecord1);
                             break;
                         case 3:
-                            _setDicService.Delete<dict_DecayPool>(DicRecord);
+                            List<dict_DecayPool> DicRecord2 = JsonConvert.DeserializeObject<List<dict_DecayPool>>(DicRecordStr);
+                            _setDicService.Delete<dict_DecayPool>(DicRecord2);
                             break;
                     }
                     return "true";
@@ -316,17 +325,19 @@ namespace Start.Controllers
             {
                 try
                 {
-                    dict_Position DicRecord = JsonConvert.DeserializeObject<dict_Position>(DicRecordStr);
                     switch (flag)
                     {
                         case 1:
+                            dict_Position DicRecord = JsonConvert.DeserializeObject<dict_Position>(DicRecordStr);
                             _setDicService.Insert<dict_Position>(DicRecord);
                             break;
                         case 2:
-                            _setDicService.Update<dict_Position>(DicRecord);
+                            dict_Position DicRecord1 = JsonConvert.DeserializeObject<dict_Position>(DicRecordStr);
+                            _setDicService.Update<dict_Position>(DicRecord1);
                             break;
                         case 3:
-                            _setDicService.Delete<dict_Position>(DicRecord);
+                            List<dict_Position> DicRecord2 = JsonConvert.DeserializeObject<List<dict_Position>>(DicRecordStr);
+                            _setDicService.Delete<dict_Position>(DicRecord2);
                             break;
                     }
                     return "true";
@@ -340,17 +351,19 @@ namespace Start.Controllers
             {
                 try
                 {
-                    dict_Process DicRecord = JsonConvert.DeserializeObject<dict_Process>(DicRecordStr);
                     switch (flag)
                     {
                         case 1:
+                            dict_Process DicRecord = JsonConvert.DeserializeObject<dict_Process>(DicRecordStr);
                             _setDicService.Insert<dict_Process>(DicRecord);
                             break;
                         case 2:
-                            _setDicService.Update<dict_Process>(DicRecord);
+                            dict_Process DicRecord1 = JsonConvert.DeserializeObject<dict_Process>(DicRecordStr);
+                            _setDicService.Update<dict_Process>(DicRecord1);
                             break;
                         case 3:
-                            _setDicService.Delete<dict_Process>(DicRecord);
+                            List<dict_Process> DicRecord2 = JsonConvert.DeserializeObject<List<dict_Process>>(DicRecordStr);
+                            _setDicService.Delete<dict_Process>(DicRecord2);
                             break;
                     }
                     return "true";
@@ -365,17 +378,19 @@ namespace Start.Controllers
             {
                 try
                 {
-                    dict_Company DicRecord = JsonConvert.DeserializeObject<dict_Company>(DicRecordStr);
                     switch (flag)
                     {
                         case 1:
+                            dict_Company DicRecord = JsonConvert.DeserializeObject<dict_Company>(DicRecordStr);
                             _setDicService.Insert<dict_Company>(DicRecord);
                             break;
                         case 2:
-                            _setDicService.Update<dict_Company>(DicRecord);
+                            dict_Company DicRecord1 = JsonConvert.DeserializeObject<dict_Company>(DicRecordStr);
+                            _setDicService.Update<dict_Company>(DicRecord1);
                             break;
                         case 3:
-                            _setDicService.Delete<dict_Company>(DicRecord);
+                            List<dict_Company> DicRecord2 = JsonConvert.DeserializeObject<List<dict_Company>>(DicRecordStr);
+                            _setDicService.Delete<dict_Company>(DicRecord2);
                             break;
                     }
                     return "true";
@@ -390,19 +405,19 @@ namespace Start.Controllers
             {
                 try
                 {
-                    //tb_Pollutant_bf_gt DicRecord = JsonConvert.DeserializeObject<tb_Pollutant_bf_gt>(DicRecordStr);
-                    //switch (flag)
-                    //{
-                    //    case 1:
-                    //        _setDicService.Insert<tb_Pollutant_bf_gt>(DicRecord);
-                    //        break;
-                    //    case 2:
-                    //        _setDicService.Update<tb_Pollutant_bf_gt>(DicRecord);
-                    //        break;
-                    //    case 3:
-                    //        _setDicService.Delete<tb_Pollutant_bf_gt>(DicRecord);
-                    //        break;
-                    //}
+                   dict_Sign  DicRecord = JsonConvert.DeserializeObject<dict_Sign>(DicRecordStr);
+                    switch (flag)
+                    {
+                        case 1:
+                            _setDicService.Insert<dict_Sign>(DicRecord);
+                            break;
+                        case 2:
+                            _setDicService.Update<dict_Sign>(DicRecord);
+                            break;
+                        case 3:
+                            _setDicService.Delete<dict_Sign>(DicRecord);
+                            break;
+                    }
                     return "true";
                 }
                 catch (Exception e)

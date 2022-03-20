@@ -1,7 +1,7 @@
 ﻿using Common.Models;
 using IService;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,33 +19,29 @@ namespace Start.Controllers
             _ifdecaypoolService = ifdecaypoolService;
         }
 
-        #region 查询记录类型
+        #region 查询
         [HttpPost]
         [Route("queryType")]//不加的话访问不到该方法  访问地址api/user/login
-        public IActionResult queryType([FromForm]string isopen)
+        public IActionResult datagridall([FromForm] string isopen)
         {
+            //var all_DecayPools = _ifdecaypoolService.Query<tb_DecayPool>(u => true);
             try
             {
-                int s = Convert.ToInt32(isopen);
-                var all_DecayPools = _ifdecaypoolService.Query<tb_Sign>(a => a.IsOpen == s);
+                var all_ryzzs = _ifdecaypoolService.Query<dict_Sign>(u => u.IsOpen == Convert.ToInt32(isopen));
 
-                if (all_DecayPools?.Count() > 0)
+                if (all_ryzzs?.Count() > 0)
                 {
-                    var userInfo = all_DecayPools.ToList();
+                    var userInfo = all_ryzzs.ToList();
 
                     //可以根据权限不同返回一个对应菜单
                     return Ok(userInfo);
                 }
-                else
-                {
-                    return Ok("");
-                }
+                else return Ok("");
             }
-            catch (Exception e1)
+            catch (Exception e0)
             {
-                return Ok("测试失败");
+                return Ok("");
             }
-
         }
         #endregion
     }

@@ -8,11 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Common.Models
 {
+    
     [Table("Tab_operator")]
     public partial class Tab_operator
     {
         [Key]
+       
         public int opid { get; set; }
+
         [StringLength(10)]
         public string op_code { get; set; }
         [StringLength(30)]

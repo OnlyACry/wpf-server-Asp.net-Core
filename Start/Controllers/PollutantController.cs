@@ -28,7 +28,7 @@ namespace Start.Controllers
         {
                 if (PollutantType== "PollutantRecordDatagrid_sc_gt")
             {
-              var Pollut1 = _pollutantService.Query<tb_Pollutant_sc_gt>(u => u.IsValid == 1);
+              var Pollut1 = _pollutantService.Query<tb_Pollutant>(u =>u.PollutantType=="固态"&&u.SourceName=="核素生产");
                 if (Pollut1?.Count() > 0)
                 {
                     var Pollut1Info = Pollut1.ToList();
@@ -43,7 +43,7 @@ namespace Start.Controllers
             
           else  if (PollutantType == "PollutantRecordDatagrid_sc_yt")
             {
-                var Pollut2 = _pollutantService.Query<tb_Pollutant_sc_yt>(u => u.IsValid == 1);
+                var Pollut2 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "液态" && u.SourceName == "核素生产");
                 if (Pollut2?.Count() > 0)
                 {
                     var Pollut1Info = Pollut2.ToList();
@@ -57,7 +57,7 @@ namespace Start.Controllers
             }
             else if(PollutantType == "PollutantRecordDatagrid_sc_qt")
             {
-                var Pollut3 = _pollutantService.Query<tb_Pollutant_sc_qt>(u => u.IsValid == 1);
+                var Pollut3 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "气态" && u.SourceName == "核素生产");
                 if (Pollut3?.Count() > 0)
                 {
                     var Pollut1Info = Pollut3.ToList();
@@ -71,7 +71,7 @@ namespace Start.Controllers
             }
             else if (PollutantType == "PollutantRecordDatagrid_zs_gt")
             {
-                var Pollut4 = _pollutantService.Query<tb_Pollutant_zs_gt>(u => u.IsValid == 1);
+                var Pollut4 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "固态" && u.SourceName == "核素注射");
                 if (Pollut4?.Count() > 0)
                 {
                     var Pollut1Info = Pollut4.ToList();
@@ -84,7 +84,7 @@ namespace Start.Controllers
             }
             else if (PollutantType == "PollutantRecordDatagrid_zs_yt")
             {
-                var Pollut5 = _pollutantService.Query<tb_Pollutant_zs_yt>(u => u.IsValid == 1);
+                var Pollut5 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "液态" && u.SourceName == "核素注射");
                 if (Pollut5?.Count() > 0)
                 {
                     var Pollut1Info = Pollut5.ToList();
@@ -98,7 +98,7 @@ namespace Start.Controllers
             }
             else if (PollutantType == "PollutantRecordDatagrid_zs_qt")
             {
-                var Pollut6 = _pollutantService.Query<tb_Pollutant_zs_qt>(u => u.IsValid == 1);
+                var Pollut6 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "气态" && u.SourceName == "核素注射");
 
                 if (Pollut6?.Count() > 0)
                 {
@@ -113,7 +113,7 @@ namespace Start.Controllers
             }
             else if (PollutantType == "PollutantRecordDatagrid_bf_gt")
             {
-                var Pollut7 = _pollutantService.Query<tb_Pollutant_bf_gt>(u => u.IsValid == 1);
+                var Pollut7 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "固态" && u.SourceName == "核素病房");
 
                 if (Pollut7?.Count() > 0)
                 {
@@ -127,7 +127,7 @@ namespace Start.Controllers
             }
             else if (PollutantType == "PollutantRecordDatagrid_bf_yt")
             {
-                var Pollut8 = _pollutantService.Query<tb_Pollutant_bf_yt>(u => u.IsValid == 1);
+                var Pollut8 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "液态" && u.SourceName == "核素病房");
 
                 if (Pollut8?.Count() > 0)
                 {
@@ -141,7 +141,7 @@ namespace Start.Controllers
             }
             else 
             {
-                var Pollut9 = _pollutantService.Query<tb_Pollutant_bf_qt>(u => u.IsValid == 1);
+                var Pollut9 = _pollutantService.Query<tb_Pollutant>(u => u.PollutantType == "气态" && u.SourceName == "核素病房");
                 if (Pollut9?.Count() > 0)
                 {
                     var Pollut1Info = Pollut9.ToList();
@@ -158,17 +158,27 @@ namespace Start.Controllers
 
         [HttpPost]
         [Route("AddRecord")]
-        public IActionResult AddRecord([FromForm] string PollutantType, [FromForm] string PollutantRecordStr)
+        public IActionResult AddRecord([FromForm] string PollutantRecordStr)
         {
-          string result=  CommonMethod(PollutantType, PollutantRecordStr, 1);
-            return Ok(result);
+            try
+            {
+                tb_Pollutant PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant>(PollutantRecordStr);
+                _pollutantService.Insert<tb_Pollutant>(PollutantRecord);
+                return Ok("true");
+            }
+            catch (Exception e) { return Ok(e.Message); };
         }
         [HttpPost]
         [Route("ReRecord")]
-        public IActionResult ReRecord([FromForm] string PollutantType, [FromForm] string PollutantRecordStr)
+        public IActionResult ReRecord([FromForm] string PollutantRecordStr)
         {
-            string result = CommonMethod(PollutantType, PollutantRecordStr, 2);
-            return Ok(result);
+            try
+            {
+                tb_Pollutant PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant>(PollutantRecordStr);
+                _pollutantService.Update<tb_Pollutant>(PollutantRecord);
+                return Ok("true");
+            }
+            catch (Exception e) { return Ok(e.Message); };
 
 
         }
@@ -176,241 +186,17 @@ namespace Start.Controllers
 
         [HttpPost]
         [Route("DeRecord")]
-        public IActionResult DeRecord([FromForm] string PollutantType, [FromForm] string PollutantRecordStr)
+        public IActionResult DeRecord([FromForm] string PollutantRecordStr)
         {
-            string result = CommonMethod(PollutantType, PollutantRecordStr, 3);
-            return Ok(result);
+            try
+            {
+                List<tb_Pollutant> PollutantRecord = JsonConvert.DeserializeObject<List<tb_Pollutant>>(PollutantRecordStr);
+                _pollutantService.Delete<tb_Pollutant>(PollutantRecord);
+                return Ok("true");
+            }
+            catch (Exception e) { return Ok(e.Message); };
         }
-        /// <summary>
-        /// 增删改通用方法
-        /// </summary>
-        /// <param name="PollutantType">污染物表类型</param>
-        /// <param name="PollutantRecordStr"></param>
-        /// <param name="flag">1表示增加，2表示修改，3表示删除</param>
-        /// <returns></returns>
-        public string CommonMethod(string PollutantType,string PollutantRecordStr,int flag)
-        {
-            if (PollutantType == "PollutantRecordDatagrid_sc_gt")
-            {
-                try
-                {
-                    tb_Pollutant_sc_gt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_sc_gt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:  _pollutantService.Insert<tb_Pollutant_sc_gt>(PollutantRecord);
-                            break;
-                        case 2:  _pollutantService.Update<tb_Pollutant_sc_gt>(PollutantRecord);
-                            break;
-                        case 3:  _pollutantService.Delete<tb_Pollutant_sc_gt>(PollutantRecord);
-                            break;
-                    }
-
-                   
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_sc_yt")
-            {
-                try
-                {
-                    tb_Pollutant_sc_yt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_sc_yt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_sc_yt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_sc_yt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_sc_yt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_sc_qt")
-            {
-                try
-                {
-                    tb_Pollutant_sc_qt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_sc_qt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_sc_qt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_sc_qt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_sc_qt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_zs_gt")
-            {
-                try
-                {
-                    tb_Pollutant_zs_gt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_zs_gt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_zs_gt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_zs_gt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_zs_gt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_zs_yt")
-            {
-                try
-                {
-                    tb_Pollutant_zs_yt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_zs_yt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_zs_yt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_zs_yt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_zs_yt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_zs_qt")
-            {
-                try
-                {
-                    tb_Pollutant_zs_qt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_zs_qt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_zs_qt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_zs_qt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_zs_qt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_bf_gt")
-            {
-                try
-                {
-                    tb_Pollutant_bf_gt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_bf_gt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_bf_gt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_bf_gt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_bf_gt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-            }
-            else if (PollutantType == "PollutantRecordDatagrid_bf_yt")
-            {
-                try
-                {
-                    tb_Pollutant_bf_yt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_bf_yt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_bf_yt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_bf_yt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_bf_yt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-            }
-            else
-            {
-                try
-                {
-                    tb_Pollutant_bf_qt PollutantRecord = JsonConvert.DeserializeObject<tb_Pollutant_bf_qt>(PollutantRecordStr);
-                    switch (flag)
-                    {
-                        case 1:
-                            _pollutantService.Insert<tb_Pollutant_bf_qt>(PollutantRecord);
-                            break;
-                        case 2:
-                            _pollutantService.Update<tb_Pollutant_bf_qt>(PollutantRecord);
-                            break;
-                        case 3:
-                            _pollutantService.Delete<tb_Pollutant_bf_qt>(PollutantRecord);
-                            break;
-                    }
-                    return "true";
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
-            }
-
-        }
+       
     }
 
 

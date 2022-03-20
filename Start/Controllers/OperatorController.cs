@@ -21,7 +21,7 @@ namespace Start.Controllers
 
 
         //得到datagrid的数据源
-        [HttpPost]
+        [HttpGet]
         [Route("getAll")]
         public IActionResult getAll()
         {           
@@ -68,7 +68,7 @@ namespace Start.Controllers
         [Route("DeRecord")]
         public IActionResult DeRecord([FromForm] string RecordStr)
         {
-            Tab_operator Record = JsonConvert.DeserializeObject<Tab_operator>(RecordStr);
+            List<Tab_operator> Record = JsonConvert.DeserializeObject<List<Tab_operator>>(RecordStr);
             try
             {
                 _OperatorService.Delete<Tab_operator>(Record);

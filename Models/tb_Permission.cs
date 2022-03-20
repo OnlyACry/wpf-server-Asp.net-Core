@@ -13,13 +13,11 @@ namespace Common.Models
     public partial class tb_Permission
     {
         [StringLength(30)]
-        public string ryCode { get; set; }
-        public int? WriteData { get; set; }
-        public int? Search { get; set; }
-        public int? StaOut { get; set; }
-        public int? DicSet { get; set; }
-        public int? RyADUS { get; set; }
-        public int? Normal { get; set; }
-        public int? NormalDel { get; set; }
+        public Guid PermissionUID { get; set; }
+
+        public string RoleName { get; set; }
+
+        public string PermissionValue { get; set; }
+    
     }
 }

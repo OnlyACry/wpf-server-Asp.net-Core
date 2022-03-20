@@ -51,7 +51,9 @@ namespace Start
             services.AddTransient<ISetDicService, SetDicService>();
             services.AddTransient<IOperatorService, OperatorService>();
             services.AddTransient<IfdecaypoolService, fdecaypoolService>();
+            services.AddTransient<IPermissionService, PermissionService>();
 
+            services.AddTransient<InAppFileSaver, AppFileService>();
 
 
 
