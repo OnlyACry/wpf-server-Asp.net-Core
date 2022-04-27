@@ -54,6 +54,7 @@ namespace Start
             services.AddTransient<IPermissionService, PermissionService>();
 
             services.AddTransient<InAppFileSaver, AppFileService>();
+            services.AddTransient<IEnvTestLogService, EnvTestLogService>();
 
 
 

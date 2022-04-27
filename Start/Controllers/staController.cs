@@ -21,7 +21,7 @@ namespace Start.Controllers
             _ifdecaypoolService = ifdecaypoolService;
         }
 
-        string connectStr = "Data Source=.;Initial Catalog=Medicine;Persist Security Info=True;User ID=lcac;Password=123456";
+        string connectStr = "Data Source=DESKTOP-B4CVPOM\\WKMSH;Initial Catalog=hsxt;User ID=sa;Password=123456";
         DataTable dt = new DataTable();
 
         #region 衰变池 -> 总量

@@ -1,6 +1,7 @@
 ﻿using Common.Models;
 using IService;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Newtonsoft.Json;
 using Service;
 using System;
@@ -19,6 +20,8 @@ namespace Start.Controllers
         {
             _setDicService = setDicService;
         }
+
+
 
         //得到字典表的数据源
         [HttpPost]
@@ -180,6 +183,19 @@ namespace Start.Controllers
                     return NoContent();
                 }
             }
+            else if (DicType == "dict_Area")
+            {
+                var Pollut10 = _setDicService.Query<dict_Area>(u =>true);
+                if (Pollut10?.Count() > 0)
+                {
+                    var Pollut1Info = Pollut10.ToList();
+                    return Ok(Pollut1Info);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
 
             else 
             {
@@ -234,6 +250,8 @@ namespace Start.Controllers
         /// <param name="PollutantRecordStr"></param>
         /// <param name="flag">1表示增加，2表示修改，3表示删除</param>
         /// <returns></returns>
+        [HttpPost]
+        [Route("Record")]
         public string CommonMethod(string DicType, string DicRecordStr, int flag)
         {
             if (DicType == "dict_Pollutant")
@@ -401,7 +419,8 @@ namespace Start.Controllers
                 }
 
             }
-            else //多种核素标记
+            
+            else if (DicType == "dict_Sign")//多种核素标记
             {
                 try
                 {
@@ -425,7 +444,32 @@ namespace Start.Controllers
                     return e.Message;
                 }
             }
-          
+            else 
+            {
+                try
+                {
+                    dict_Area DicRecord = JsonConvert.DeserializeObject<dict_Area>(DicRecordStr);
+                    switch (flag)
+                    {
+                        case 1:
+                            _setDicService.Insert<dict_Area>(DicRecord);
+                            break;
+                        case 2:
+                            _setDicService.Update<dict_Area>(DicRecord);
+                            break;
+                        case 3:
+                            _setDicService.Delete<dict_Area>(DicRecord);
+                            break;
+                    }
+                    return "true";
+                }
+                catch (Exception e)
+                {
+                    return e.Message;
+                }
+            }
+            
+
 
         }
     }

@@ -163,7 +163,7 @@ namespace Start.Controllers
                 }
                 else
                 {
-                    return Ok("测试成功");
+                    return NoContent();
                 }
             }
             catch (Exception e1)

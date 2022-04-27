@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Start.Controllers
 {
+    [Route("api/[controller]")]
     public class zkwjController:ControllerBase
     {
 

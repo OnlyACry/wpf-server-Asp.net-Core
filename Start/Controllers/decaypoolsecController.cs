@@ -188,7 +188,7 @@ namespace Start.Controllers
                 }
                 else
                 {
-                    return Ok("");
+                    return NoContent();
                 }
             }
             catch (Exception e1)

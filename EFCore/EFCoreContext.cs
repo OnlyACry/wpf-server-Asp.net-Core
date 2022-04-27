@@ -8,11 +8,15 @@ namespace EFCore
 {
     public partial class EFCoreContext:DbContext
     {
-        private string strConn = "Data Source=.;Initial Catalog=Medicine;Persist Security Info=True;User ID=lcac;Password=123456";
+        //本地数据库连接字符串
+        //private string strConn = "Data Source=DESKTOP-B4CVPOM\\WKMSH;Initial Catalog=hsxt;User ID=sa;Password=123456";
+      //  private string strConn = "Persist Security Info=False;User ID=sa;Password=123456789.zxc;Initial Catalog=hsxt;Data Source=192.168.43.168";  // 好像不需要？
 
+        private string strConn = "Data Source=.;Initial Catalog=hsxt;Integrated Security=True";
 
         public EFCoreContext(string strConn)
         {
+            strConn = "Data Source=.;Initial Catalog=hsxt;Integrated Security=True;Data Source=10.62.1.52";
             this.strConn = strConn;
         }
 
@@ -22,7 +26,7 @@ namespace EFCore
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            strConn = "Data Source=.;Initial Catalog=Medicine;Persist Security Info=True;User ID=lcac;Password=123456";
+           
             optionsBuilder.UseSqlServer(strConn);
             base.OnConfiguring(optionsBuilder);
         }
@@ -56,6 +60,7 @@ namespace EFCore
         public virtual DbSet<dict_Sign> Dict_Signs { get; set; }
         public virtual DbSet<tb_Sign> tb_Sign { get; set; }
         public virtual DbSet<tb_Pollutant> tb_Pollutant { get; set; }
+        public virtual DbSet<tb_EnvTestLog> tb_EnvTestLog { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -334,6 +339,19 @@ namespace EFCore
                 entity.Property(e => e.SourceNo).IsUnicode(false);
             });
 
+            modelBuilder.Entity<dict_Area>(entity =>
+            {
+                entity.Property(e => e.AreaUid).IsUnicode(false);
+
+                entity.Property(e => e.AreaCode).IsUnicode(false);
+
+                entity.Property(e => e.AreaNo).IsUnicode(false);
+
+                entity.Property(e => e.AreaName).IsUnicode(false);
+
+             
+            });
+
             modelBuilder.Entity<tb_CommLog>(entity =>
             {
                 entity.HasKey(e => e.CommLogUID)
@@ -557,6 +575,28 @@ namespace EFCore
 
                 
             });
+
+            modelBuilder.Entity<tb_EnvTestLog>(entity =>
+            {
+                entity.HasKey(e => e.TestUID)
+                    .HasName("PK__tb_Ry__D327D4FA386A7F90");
+
+                entity.Property(e => e.TestUID).ValueGeneratedNever();
+
+                entity.Property(e => e.TestTime).IsUnicode(false);
+
+                entity.Property(e => e.TestArea).IsUnicode(false);
+
+                entity.Property(e => e.TestDosage).IsUnicode(false);
+
+                entity.Property(e => e.TestDosageUnit).IsUnicode(false);
+
+                entity.Property(e => e.Tester).IsUnicode(false);
+
+                entity.Property(e => e.TesterCode).IsUnicode(false);
+
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
